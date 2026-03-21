@@ -8,11 +8,13 @@ from groq import Groq
 # Groq API — Free tier, no credit card needed
 # 1. Sign up free at https://console.groq.com
 # 2. Go to API Keys → Create API Key → copy it
-# 3. Paste your key below or set as env variable:
+# 3. Set as environment variable:
 #    Windows: set GROQ_API_KEY=your_key_here
 # ─────────────────────────────────────────
 
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    raise ValueError("GROQ_API_KEY environment variable is not set. Please set it before running.")
 
 client = Groq(api_key=GROQ_API_KEY)
 
