@@ -2,31 +2,39 @@
 
 from transformers import pipeline
 import nltk
+import streamlit as st
 nltk.download('punkt', quiet=True)
 nltk.download('punkt_tab', quiet=True)
 from nltk.tokenize import sent_tokenize
 
-print("Loading bias detection models... (first run downloads ~500MB)")
+# Load models with proper Streamlit caching
+@st.cache_resource
+def load_bias_models():
+    print("Loading bias detection models... (first run downloads ~500MB)")
+    
+    # Model 1: Binary bias detector — RoBERTa, 92% accuracy
+    binary_classifier = pipeline(
+        "text-classification",
+        model="himel7/bias-detector",
+        truncation=True,
+        max_length=512,
+        device=-1  # CPU only to save GPU memory
+    )
+    
+    # Model 2: Bias type classifier — 11 categories incl. gender + age
+    type_classifier = pipeline(
+        "text-classification",
+        model="cirimus/modernbert-large-bias-type-classifier",
+        top_k=None,
+        truncation=True,
+        max_length=512,
+        device=-1  # CPU only to save GPU memory
+    )
+    
+    print("Models loaded.")
+    return binary_classifier, type_classifier
 
-# Model 1: Binary bias detector — RoBERTa, 92% accuracy
-binary_classifier = pipeline(
-    "text-classification",
-    model="himel7/bias-detector",
-    truncation=True,
-    max_length=512
-)
-
-# Model 2: Bias type classifier — 11 categories incl. gender + age
-# top_k=None returns ALL label scores as a flat list of dicts
-type_classifier = pipeline(
-    "text-classification",
-    model="cirimus/modernbert-large-bias-type-classifier",
-    top_k=None,
-    truncation=True,
-    max_length=512
-)
-
-print("Models loaded.")
+binary_classifier, type_classifier = load_bias_models()
 
 TARGET_BIAS_TYPES = {"gender", "age"}
 BINARY_THRESHOLD  = 0.50   # Lowered threshold to catch more genuine biases

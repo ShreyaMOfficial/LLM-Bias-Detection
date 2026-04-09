@@ -1,0 +1,35 @@
+[client]
+showErrorDetails = false
+
+[logger]
+level = "error"
+
+[client.toolbarMode]
+mode = "minimal"
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+primaryColor = "#1a1410"
+backgroundColor = "#f5f0e8"
+secondaryBackgroundColor = "#ede8dc"
+textColor = "#1a1410"
+font = "serif"
+
+# Memory optimization settings
+[cache]
+# Force the maximum number of cached entries
+maxEntries = 10
+
+[server]
+# Prevent Streamlit from running the script multiple times unnecessarily
+runOnSave = false
+
+# Memory optimization
+maxUploadSize = 1
+enableCORS = false
+enableXsrfProtection = true
+
+# Optimize for large model inference
+enableWebsocketCompression = true
