@@ -9,4 +9,4 @@ matplotlib
 streamlit>=1.40.0
 plotly
 groq
-groq
+python-dotenv

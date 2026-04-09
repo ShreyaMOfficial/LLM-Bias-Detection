@@ -3,6 +3,9 @@
 import os
 import random
 from groq import Groq
+from dotenv import load_dotenv
+
+load_dotenv()
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 if not GROQ_API_KEY:
