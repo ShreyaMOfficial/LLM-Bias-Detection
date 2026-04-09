@@ -7,7 +7,7 @@ from groq import Groq
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 if not GROQ_API_KEY:
-    raise ValueError("GROQ_API_KEY environment variable is not set. Please set it before running the application.")
+    raise ValueError("GROQ_API_KEY environment variable is not set")
 client = Groq(api_key=GROQ_API_KEY)
 
 # ─────────────────────────────────────────────────────────────────
